@@ -1,8 +1,30 @@
 import time
 import Adafruit_DHT
+import argparse
 
-DHT_SENSOR = Adafruit_DHT.DHT22
-DHT_PIN = 2
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--type", "-t", help='set sensor type - DHT11 or DHT22 only')
+parser.add_argument("--pin", "-p", help="set data pin number")
+
+args = parser.parse_args()
+# DHT_SENSOR = Adafruit_DHT.DHT22
+# DHT_PIN = 2
+
+
+if str(args.type) ==  "DHT22":
+    DHT_SENSOR = Adafruit_DHT.DHT22
+elif str(args.type) == "DHT11":
+    DHT_SENSOR = Adafruit_DHT.DHT11
+else:
+    print ('Type of sensor is not correct. You have to specific type [DHT22|DHT11]. Use --help')
+    exit (1)
+
+if int(args.pin) < 48:
+    DHT_PIN = int(args.pin)
+else:
+    print ("Wrong pin number. Use --help")
+    exit (1)
 
 while True:
     try: 
